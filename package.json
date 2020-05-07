@@ -2,7 +2,7 @@
   "name": "esbuild-minifier-webpack-plugin",
   "version": "1.0.0",
   "description": "",
-  "main": "/dist/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server --config ./example/webpack.config.babel.js --inline --hot --progress",
     "build:example": "yarn build && NODE_ENV=production webpack --config ./example/webpack.config.babel.js --progress --hide-modules",
