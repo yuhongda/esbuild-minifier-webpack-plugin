@@ -24,11 +24,10 @@ class ESBuildMinifierWebpackPlugin {
         }
 
         try{
-          await Promise.all(queue);
+          await Promise.all(queue).then(() => callback);
         } catch (e) {
           throw e;
         }
-        callback();
       }
     );
 
