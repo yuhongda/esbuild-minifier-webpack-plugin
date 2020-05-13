@@ -24,7 +24,7 @@ class ESBuildMinifierWebpackPlugin {
 
             for (const chunk of chunks) {
               for (const file of chunk.files) {
-                if (/\.(js)$/.test(file)) {
+                if (/\.m?js(\?.*)?$/i.test(file)) {
                   const source: string = compilation.assets[file].source();
                   const { js } = await service.transform(source, { minify: true });
                   compilation.assets[file] = new RawSource(js || '');
