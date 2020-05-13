@@ -1,6 +1,7 @@
 import { Compiler, compilation } from 'webpack';
 import { RawSource } from 'webpack-sources';
 import { Service, startService } from 'esbuild';
+import pLimit, { Limit } from 'p-limit';
 
 let _service: Service;
 const ensureService: () => Promise<Service> = async () => {
@@ -21,17 +22,27 @@ class ESBuildMinifierWebpackPlugin {
           pluginName,
           async (chunks: compilation.Chunk[], callback) => {
             const service = await ensureService();
+            const limit: Limit = pLimit(1);
+            const queue: any[] = [];
+            const transform = (source: string, cb: (js: string | undefined) => void) => new Promise<string>(async (resolve, reject) => {
+              const { js } = await service.transform(source, { minify: true });
+              cb(js);
+              resolve(js);
+            });
 
             for (const chunk of chunks) {
               for (const file of chunk.files) {
                 if (/\.m?js(\?.*)?$/i.test(file)) {
                   const source: string = compilation.assets[file].source();
-                  const { js } = await service.transform(source, { minify: true });
-                  compilation.assets[file] = new RawSource(js || '');
+                  const setAsset = (js: string | undefined) => {
+                    compilation.assets[file] = new RawSource(js || '');
+                  }
+                  queue.push(limit(() => transform(source, setAsset)));
                 }
               };
             };
-
+            
+            await Promise.all(queue);
             callback();
           }
         )
