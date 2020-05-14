@@ -19,7 +19,7 @@ class ESBuildMinifierWebpackPlugin {
         compiler.hooks.compilation.tap(pluginName, (compilation) => {
             compilation.hooks.optimizeChunkAssets.tapAsync(pluginName, async (chunks, callback) => {
                 const service = await ensureService();
-                const limit = p_limit_1.default(1);
+                const limit = p_limit_1.default(Infinity);
                 const queue = [];
                 const transform = (source, cb) => new Promise(async (resolve, reject) => {
                     const { js } = await service.transform(source, { minify: true });

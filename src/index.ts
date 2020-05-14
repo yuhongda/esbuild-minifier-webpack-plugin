@@ -22,7 +22,7 @@ class ESBuildMinifierWebpackPlugin {
           pluginName,
           async (chunks: compilation.Chunk[], callback) => {
             const service = await ensureService();
-            const limit: Limit = pLimit(1);
+            const limit: Limit = pLimit(Infinity);
             const queue: any[] = [];
             const transform = (source: string, cb: (js: string | undefined) => void) => new Promise<string>(async (resolve, reject) => {
               const { js } = await service.transform(source, { minify: true });
