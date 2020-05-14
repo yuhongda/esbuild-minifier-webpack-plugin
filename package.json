@@ -1,6 +1,6 @@
 {
   "name": "esbuild-minifier-webpack-plugin",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
