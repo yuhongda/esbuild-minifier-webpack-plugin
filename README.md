@@ -1,6 +1,6 @@
 # esbuild-minifier-webpack-plugin
-====
-A webpack plugin to compress js based on [esbuild](https://github.com/evanw/esbuild)
+
+> A webpack plugin to compress js based on [esbuild](https://github.com/evanw/esbuild)
 
 Install
 -----
